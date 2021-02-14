@@ -7,14 +7,15 @@ const Form1 = () => {
   const [url, setMemeUrl] = useState("");
   const [caption, setCaption] = useState("");
 
-  const postMeme = () => {
+  const postMeme = async () => {
     let data = {
       name,
       url,
       caption,
     };
-    alert("DATA : ", name);
-    axios
+    // alert("DATA : ", name);
+    console.log(data);
+    await axios
       .post("https://memesbygaurav.herokuapp.com/memes", data)
       .then((response) => {
         const data = response.data;
@@ -25,21 +26,21 @@ const Form1 = () => {
       });
   };
 
-  const nameHandler = (e) => {
-    console.log("e : ", e.nativeEvent.data);
-    setName(name + e.nativeEvent.data);
-  };
+  //   const nameHandler = (e) => {
+  //     console.log("e : ", e.nativeEvent.data);
+  //     setName(name + e.nativeEvent.data);
+  //   };
 
-  const urlHandler = (e) => {
-    setMemeUrl(url + e.nativeEvent.data);
-  };
+  //   const urlHandler = (e) => {
+  //     setMemeUrl(url + e.nativeEvent.data);
+  //   };
 
-  const captionHandler = (e) => {
-    setCaption(caption + e.nativeEvent.data);
-  };
+  //   const captionHandler = (e) => {
+  //     setCaption(caption + e.nativeEvent.data);
+  //   };
 
   return (
-    <Form onSubmit={postMeme}>
+    <Form>
       <FormGroup>
         <Label for="name">Name</Label>
         <Input
@@ -47,7 +48,7 @@ const Form1 = () => {
           name="name"
           id="name"
           placeholder="Enter Name"
-          onChange={nameHandler}
+          onChange={(e) => setName(e.target.value)}
         />
       </FormGroup>
       <FormGroup>
@@ -57,7 +58,7 @@ const Form1 = () => {
           name="caption"
           id="caption"
           placeholder="Enter Caption"
-          onChange={captionHandler}
+          onChange={(e) => setCaption(e.target.value)}
         />
       </FormGroup>
       <FormGroup>
@@ -67,10 +68,12 @@ const Form1 = () => {
           name="url"
           id="url"
           placeholder="Enter URL"
-          onChange={urlHandler}
+          onChange={(e) => setMemeUrl(e.target.value)}
         />
       </FormGroup>
-      <Button type="submit">Submit</Button>
+      <Button type="submit" onClick={postMeme}>
+        Submit
+      </Button>
     </Form>
   );
 };
